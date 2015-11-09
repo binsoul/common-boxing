@@ -17,17 +17,17 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
     /** @var mixed[] */
     private $values;
     /** @var ValueWrapper */
-    private $autoBoxer;
+    private $wrapper;
 
     /**
      * Constructs an instance of this class.
      *
      * @param mixed[]      $values
-     * @param ValueWrapper $autoBoxer
+     * @param ValueWrapper $wrapper
      */
-    public function __construct($values, ValueWrapper $autoBoxer)
+    public function __construct($values, ValueWrapper $wrapper)
     {
-        $this->autoBoxer = $autoBoxer;
+        $this->wrapper = $wrapper;
         $this->values = $values;
         $this->keys = array_keys($values);
     }
@@ -49,7 +49,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      */
     public function keys()
     {
-        return new self($this->keys, $this->autoBoxer);
+        return new self($this->keys, $this->wrapper);
     }
 
     /**
@@ -59,7 +59,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      */
     public function values()
     {
-        return new self(array_values($this->values), $this->autoBoxer);
+        return new self(array_values($this->values), $this->wrapper);
     }
 
     /**
@@ -81,7 +81,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      */
     public function limit($length)
     {
-        return new self(array_slice($this->values, 0, $length, true), $this->autoBoxer);
+        return new self(array_slice($this->values, 0, $length, true), $this->wrapper);
     }
 
     /**
@@ -93,7 +93,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      */
     public function offset($start)
     {
-        return new self(array_slice($this->values, $start, null, true), $this->autoBoxer);
+        return new self(array_slice($this->values, $start, null, true), $this->wrapper);
     }
 
     /**
@@ -106,7 +106,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      */
     public function slice($start, $length)
     {
-        return new self(array_slice($this->values, $start, $length, true), $this->autoBoxer);
+        return new self(array_slice($this->values, $start, $length, true), $this->wrapper);
     }
 
     /**
@@ -124,7 +124,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
             $result[] = $filler;
         }
 
-        return new self($result, $this->autoBoxer);
+        return new self($result, $this->wrapper);
     }
 
     public function offsetExists($offset)
@@ -134,7 +134,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
 
     public function offsetGet($offset)
     {
-        return $this->autoBoxer->box($this->values[$offset]);
+        return $this->wrapper->box($this->values[$offset]);
     }
 
     public function offsetSet($offset, $value)

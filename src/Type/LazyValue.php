@@ -15,18 +15,18 @@ class LazyValue implements BoxedValue
     /** @var callable */
     private $generator;
     /** @var ValueWrapper */
-    private $autoBoxer;
+    private $wrapper;
 
     /**
      * Constructs an instance of this class.
      *
      * @param callable     $generator
-     * @param ValueWrapper $autoBoxer
+     * @param ValueWrapper $wrapper
      */
-    public function __construct(callable $generator, ValueWrapper $autoBoxer)
+    public function __construct(callable $generator, ValueWrapper $wrapper)
     {
         $this->generator = $generator;
-        $this->autoBoxer = $autoBoxer;
+        $this->wrapper = $wrapper;
     }
 
     /**
@@ -38,7 +38,7 @@ class LazyValue implements BoxedValue
     {
         if ($this->value === null) {
             $generator = $this->generator;
-            $this->value = $this->autoBoxer->box($generator());
+            $this->value = $this->wrapper->box($generator());
         }
 
         return $this->value;

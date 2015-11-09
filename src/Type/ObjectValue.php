@@ -13,23 +13,23 @@ class ObjectValue implements BoxedValue
     /** @var object */
     private $value;
     /** @var ValueWrapper */
-    private $autoBoxer;
+    private $wrapper;
 
     /**
      * Constructs an instance of this class.
      *
      * @param object       $value
-     * @param ValueWrapper $autoBoxer
+     * @param ValueWrapper $wrapper
      */
-    public function __construct($value, ValueWrapper $autoBoxer)
+    public function __construct($value, ValueWrapper $wrapper)
     {
         $this->value = $value;
-        $this->autoBoxer = $autoBoxer;
+        $this->wrapper = $wrapper;
     }
 
     public function __get($key)
     {
-        return $this->autoBoxer->box($this->value->{$key});
+        return $this->wrapper->box($this->value->{$key});
     }
 
     public function __set($key, $value)
