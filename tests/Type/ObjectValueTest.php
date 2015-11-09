@@ -41,4 +41,28 @@ class ObjectValueTest extends \PHPUnit_Framework_TestCase
 
         $value->foo = 'bar';
     }
+
+    public function test_call()
+    {
+        $wrapper = new DefaultValueWrapper();
+
+        $object = new Dummy();
+
+        $value = new ObjectValue($object, $wrapper);
+
+        $value->test(1, 'foo');
+        $this->assertTrue($object::$called);
+    }
+}
+
+class Dummy
+{
+    public static $called = false;
+
+    public function test($arg1, $arg2)
+    {
+        if ($arg1 === 1 && $arg2 === 'foo') {
+            self::$called = true;
+        }
+    }
 }

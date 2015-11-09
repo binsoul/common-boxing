@@ -23,7 +23,9 @@ class NumberValue implements BoxedValue
     }
 
     /**
-     * @return float|int
+     * Returns the wrapped float.
+     *
+     * @return float
      */
     public function raw()
     {
@@ -31,18 +33,29 @@ class NumberValue implements BoxedValue
     }
 
     /**
+     * Returns a rounded value with the given number of digits after the decimal point.
+     *
      * @param int $precision
      *
-     * @return NumberValue
+     * @return self
      */
     public function round($precision)
     {
         return new self(round($this->value, $precision));
     }
 
-    public function format($decimals = 0, $decimalPoint = '.', $thousandsSeparator = ',')
+    /**
+     * Returns the formatted value rounded to the given number of digits after the decimal point.
+     *
+     * @param int    $precision
+     * @param string $decimalPoint
+     * @param string $thousandsSeparator
+     *
+     * @return string
+     */
+    public function format($precision = 0, $decimalPoint = '.', $thousandsSeparator = ',')
     {
-        return number_format($this->value, $decimals, $decimalPoint, $thousandsSeparator);
+        return number_format($this->value, $precision, $decimalPoint, $thousandsSeparator);
     }
 
     public function __toString()

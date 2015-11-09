@@ -23,6 +23,8 @@ class BooleanValue implements BoxedValue
     }
 
     /**
+     * Returns the wrapped boolean.
+     *
      * @return bool
      */
     public function raw()
@@ -31,6 +33,8 @@ class BooleanValue implements BoxedValue
     }
 
     /**
+     * Indicates if the value is true.
+     *
      * @return bool
      */
     public function isTrue()
@@ -39,6 +43,8 @@ class BooleanValue implements BoxedValue
     }
 
     /**
+     * Indicates if the value is false.
+     *
      * @return bool
      */
     public function isFalse()
@@ -47,6 +53,8 @@ class BooleanValue implements BoxedValue
     }
 
     /**
+     * Returns a negated value.
+     *
      * @return BooleanValue
      */
     public function negate()

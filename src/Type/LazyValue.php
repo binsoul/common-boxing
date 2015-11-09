@@ -30,6 +30,8 @@ class LazyValue implements BoxedValue
     }
 
     /**
+     * Calls the generator and returns the boxed value.
+     *
      * @return BoxedValue
      */
     public function resolve()
@@ -43,6 +45,8 @@ class LazyValue implements BoxedValue
     }
 
     /**
+     * Calls the generator and returns the primitive value.
+     *
      * @return mixed
      */
     public function raw()

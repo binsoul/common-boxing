@@ -77,4 +77,45 @@ class ArrayValueTest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame($value, $value->keys());
         $this->assertEquals([1, 'bar'], $value->keys()->raw());
     }
+
+    public function test_limit()
+    {
+        $wrapper = new DefaultValueWrapper();
+        $value = new ArrayValue([1 => 'foo', 'bar' => 1.5], $wrapper);
+
+        $this->assertEquals([1 => 'foo', 'bar' => 1.5], $value->limit(2)->raw());
+        $this->assertEquals([1 => 'foo'], $value->limit(1)->raw());
+        $this->assertEquals([], $value->limit(0)->raw());
+    }
+
+    public function test_offset()
+    {
+        $wrapper = new DefaultValueWrapper();
+        $value = new ArrayValue([1 => 'foo', 'bar' => 1.5], $wrapper);
+
+        $this->assertEquals([1 => 'foo', 'bar' => 1.5], $value->offset(0)->raw());
+        $this->assertEquals(['bar' => 1.5], $value->offset(1)->raw());
+        $this->assertEquals([], $value->offset(2)->raw());
+    }
+
+    public function test_slice()
+    {
+        $wrapper = new DefaultValueWrapper();
+        $value = new ArrayValue([0 => 1, 1 => 2, 2 => 3], $wrapper);
+
+        $this->assertEquals([0 => 1, 1 => 2], $value->slice(0, 2)->raw());
+        $this->assertEquals([1 => 2, 2 => 3], $value->slice(1, 2)->raw());
+        $this->assertEquals([0 => 1], $value->slice(0, 1)->raw());
+        $this->assertEquals([], $value->slice(3, 1)->raw());
+    }
+
+    public function test_fill()
+    {
+        $wrapper = new DefaultValueWrapper();
+        $value = new ArrayValue([1, 2, 3], $wrapper);
+
+        $this->assertEquals([1, 2, 3], $value->fill(2, 'foo')->raw());
+        $this->assertEquals([1, 2, 3], $value->fill(3, 'foo')->raw());
+        $this->assertEquals([1, 2, 3, 'foo'], $value->fill(4, 'foo')->raw());
+    }
 }

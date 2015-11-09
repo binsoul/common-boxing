@@ -37,7 +37,14 @@ class ObjectValue implements BoxedValue
         throw new \LogicException('This object is readonly.');
     }
 
+    public function __call($name, $arguments)
+    {
+        return $this->value->{$name}(...$arguments);
+    }
+
     /**
+     * Returns the wrapped object.
+     *
      * @return object
      */
     public function raw()

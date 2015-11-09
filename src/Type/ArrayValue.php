@@ -33,6 +33,8 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
     }
 
     /**
+     * Returns the wrapped array.
+     *
      * @return mixed[]
      */
     public function raw()
@@ -41,7 +43,9 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * @return ArrayValue
+     * Returns all keys.
+     *
+     * @return self
      */
     public function keys()
     {
@@ -49,7 +53,9 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * @return ArrayValue
+     * Returns all values.
+     *
+     * @return self
      */
     public function values()
     {
@@ -57,11 +63,68 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
     }
 
     /**
+     * Returns the number of entries in the array.
+     *
      * @return int
      */
     public function count()
     {
         return count($this->values);
+    }
+
+    /**
+     * Returns all entries from the beginning of the array up to the given length.
+     *
+     * @param int $length
+     *
+     * @return self
+     */
+    public function limit($length)
+    {
+        return new self(array_slice($this->values, 0, $length, true), $this->autoBoxer);
+    }
+
+    /**
+     * Returns all entries from the given start index to the end of the array.
+     *
+     * @param $start
+     *
+     * @return self
+     */
+    public function offset($start)
+    {
+        return new self(array_slice($this->values, $start, null, true), $this->autoBoxer);
+    }
+
+    /**
+     * Returns a slice of the array from the given start index up to the given length.
+     *
+     * @param int $start
+     * @param int $length
+     *
+     * @return self
+     */
+    public function slice($start, $length)
+    {
+        return new self(array_slice($this->values, $start, $length, true), $this->autoBoxer);
+    }
+
+    /**
+     * Returns an array which contains at least the the given number of entries.
+     *
+     * @param int   $length desired number of entries
+     * @param mixed $filler value to use if the array is too short
+     *
+     * @return self
+     */
+    public function fill($length, $filler = null)
+    {
+        $result = $this->values;
+        while (count($result) < $length) {
+            $result[] = $filler;
+        }
+
+        return new self($result, $this->autoBoxer);
     }
 
     public function offsetExists($offset)
