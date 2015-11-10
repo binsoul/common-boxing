@@ -37,6 +37,28 @@ class StringValue implements BoxedValue
     }
 
     /**
+     * Returns the encoding.
+     *
+     * @return string
+     */
+    public function encoding()
+    {
+        return $this->encoding;
+    }
+
+    /**
+     * Converts the encoding.
+     *
+     * @param string $encoding
+     *
+     * @return self
+     */
+    public function convert($encoding)
+    {
+        return new self(mb_convert_encoding($this->value, $encoding, $this->encoding), $encoding);
+    }
+
+    /**
      * Returns the length of the string.
      *
      * @return int

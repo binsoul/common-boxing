@@ -12,6 +12,16 @@ class StringValueTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foobar', $value->raw());
     }
 
+    public function test_encoding()
+    {
+        $value = new StringValue('fööbär');
+        $this->assertEquals('UTF-8', $value->encoding());
+
+        $newValue = $value->convert('ISO-8859-1');
+        $this->assertEquals('ISO-8859-1', $newValue->encoding());
+        $this->assertEquals(mb_convert_encoding('fööbär', 'ISO-8859-1', 'UTF-8'), $newValue->raw());
+    }
+
     public function test_length()
     {
         $value = new StringValue('fööbär');
@@ -28,7 +38,7 @@ class StringValueTest extends \PHPUnit_Framework_TestCase
     {
         $value = new StringValue(html_entity_decode("foo\nbar&#160;baz&thinsp;qux&#8203;↣↣↣↣"));
         $this->assertEquals('fo...', $value->cut(2 + 3)->raw());
-        $this->assertEquals("foo...", $value->cut(5 + 3)->raw());
+        $this->assertEquals('foo...', $value->cut(5 + 3)->raw());
         $this->assertEquals("foo\nbar...", $value->cut(9 + 3)->raw());
         $this->assertEquals(html_entity_decode("foo\nbar&#160;baz..."), $value->cut(13 + 3)->raw());
         $this->assertEquals(html_entity_decode("foo\nbar&#160;baz&thinsp;qux&#8203;..."), $value->cut(17 + 3)->raw());
