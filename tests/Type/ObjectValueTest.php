@@ -34,12 +34,41 @@ class ObjectValueTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \LogicException
      */
-    public function test_test_cannot_set_value()
+    public function test_test_cannot_set_property()
     {
         $wrapper = new DefaultValueWrapper();
         $value = new ObjectValue(new \stdClass(), $wrapper);
 
         $value->foo = 'bar';
+    }
+
+    public function test_isset()
+    {
+        $wrapper = new DefaultValueWrapper();
+
+        $object = new \stdClass();
+        $object->strValue = 'foobar';
+        $object->intValue = 1;
+
+        $value = new ObjectValue($object, $wrapper);
+
+        $this->assertTrue(isset($value->strValue));
+        $this->assertFalse(isset($value->foobar));
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function test_test_cannot_unset_property()
+    {
+        $wrapper = new DefaultValueWrapper();
+
+        $object = new \stdClass();
+        $object->strValue = 'foobar';
+
+        $value = new ObjectValue($object, $wrapper);
+
+        unset($value->strValue);
     }
 
     public function test_call()

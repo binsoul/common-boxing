@@ -37,6 +37,16 @@ class ObjectValue implements BoxedValue
         throw new \LogicException('This object is readonly.');
     }
 
+    public function __isset($key)
+    {
+        return isset($this->value->{$key});
+    }
+
+    public function __unset($key)
+    {
+        throw new \LogicException('This object is readonly.');
+    }
+
     public function __call($name, $arguments)
     {
         return $this->value->{$name}(...$arguments);
