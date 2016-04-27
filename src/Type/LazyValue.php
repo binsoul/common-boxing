@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Common\Boxing\Type;
 
 use BinSoul\Common\Boxing\BoxedValue;
@@ -34,7 +36,7 @@ class LazyValue implements BoxedValue
      *
      * @return BoxedValue
      */
-    public function resolve()
+    public function resolve(): BoxedValue
     {
         if ($this->value === null) {
             $generator = $this->generator;
@@ -56,7 +58,7 @@ class LazyValue implements BoxedValue
         return $generator();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->resolve();
     }

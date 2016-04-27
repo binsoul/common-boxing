@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Common\Boxing;
 
 /**
@@ -14,5 +16,5 @@ interface ValueWrapper
      *
      * @return BoxedValue
      */
-    public function box($value);
+    public function box($value): BoxedValue;
 }

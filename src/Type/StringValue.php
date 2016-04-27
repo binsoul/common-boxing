@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Common\Boxing\Type;
 
 use BinSoul\Common\Boxing\BoxedValue;
@@ -20,7 +22,7 @@ class StringValue implements BoxedValue
      * @param string $value
      * @param string $encoding
      */
-    public function __construct($value, $encoding = 'UTF-8')
+    public function __construct(string $value, string $encoding = 'UTF-8')
     {
         $this->value = $value;
         $this->encoding = $encoding;
@@ -41,7 +43,7 @@ class StringValue implements BoxedValue
      *
      * @return string
      */
-    public function encoding()
+    public function encoding(): string
     {
         return $this->encoding;
     }
@@ -53,7 +55,7 @@ class StringValue implements BoxedValue
      *
      * @return self
      */
-    public function convert($encoding)
+    public function convert(string $encoding): self
     {
         return new self(mb_convert_encoding($this->value, $encoding, $this->encoding), $encoding);
     }
@@ -63,7 +65,7 @@ class StringValue implements BoxedValue
      *
      * @return int
      */
-    public function length()
+    public function length(): int
     {
         return mb_strlen($this->value, $this->encoding);
     }
@@ -73,7 +75,7 @@ class StringValue implements BoxedValue
      *
      * @return self
      */
-    public function trim()
+    public function trim(): self
     {
         return new self(preg_replace('/^[\p{Z}\s]+|[\p{Z}\s]+$/u', '', $this->value), $this->encoding);
     }
@@ -86,7 +88,7 @@ class StringValue implements BoxedValue
      *
      * @return self
      */
-    public function cut($length, $marker = '...')
+    public function cut(int $length, string $marker = '...'): self
     {
         if (mb_strlen($this->value) < $length) {
             return clone $this;
@@ -110,7 +112,7 @@ class StringValue implements BoxedValue
         return new self($result.$marker, $this->encoding);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->value;
     }

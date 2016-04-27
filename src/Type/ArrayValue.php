@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Common\Boxing\Type;
 
 use BinSoul\Common\Boxing\BoxedValue;
@@ -25,7 +27,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      * @param mixed[]      $values
      * @param ValueWrapper $wrapper
      */
-    public function __construct($values, ValueWrapper $wrapper)
+    public function __construct(array $values, ValueWrapper $wrapper)
     {
         $this->wrapper = $wrapper;
         $this->values = $values;
@@ -47,7 +49,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      *
      * @return self
      */
-    public function keys()
+    public function keys(): self
     {
         return new self($this->keys, $this->wrapper);
     }
@@ -57,7 +59,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      *
      * @return self
      */
-    public function values()
+    public function values(): self
     {
         return new self(array_values($this->values), $this->wrapper);
     }
@@ -67,7 +69,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->values);
     }
@@ -79,7 +81,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      *
      * @return self
      */
-    public function limit($length)
+    public function limit(int $length): self
     {
         return new self(array_slice($this->values, 0, $length, true), $this->wrapper);
     }
@@ -87,11 +89,11 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
     /**
      * Returns all entries from the given start index to the end of the array.
      *
-     * @param $start
+     * @param int $start
      *
      * @return self
      */
-    public function offset($start)
+    public function offset(int $start): self
     {
         return new self(array_slice($this->values, $start, null, true), $this->wrapper);
     }
@@ -104,7 +106,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      *
      * @return self
      */
-    public function slice($start, $length)
+    public function slice(int $start, int $length): self
     {
         return new self(array_slice($this->values, $start, $length, true), $this->wrapper);
     }
@@ -117,7 +119,7 @@ class ArrayValue implements BoxedValue, \ArrayAccess, \Countable, \Iterator
      *
      * @return self
      */
-    public function fill($length, $filler = null)
+    public function fill(int $length, $filler = null): self
     {
         $result = $this->values;
         while (count($result) < $length) {

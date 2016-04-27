@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Common\Boxing\Type;
 
 use BinSoul\Common\Boxing\BoxedValue;
@@ -17,7 +19,7 @@ class BooleanValue implements BoxedValue
      *
      * @param bool $value
      */
-    public function __construct($value)
+    public function __construct(bool $value)
     {
         $this->value = $value;
     }
@@ -37,7 +39,7 @@ class BooleanValue implements BoxedValue
      *
      * @return bool
      */
-    public function isTrue()
+    public function isTrue(): bool
     {
         return $this->value;
     }
@@ -47,7 +49,7 @@ class BooleanValue implements BoxedValue
      *
      * @return bool
      */
-    public function isFalse()
+    public function isFalse(): bool
     {
         return !$this->value;
     }
@@ -55,14 +57,14 @@ class BooleanValue implements BoxedValue
     /**
      * Returns a negated value.
      *
-     * @return BooleanValue
+     * @return self
      */
-    public function negate()
+    public function negate(): self
     {
         return new self(!$this->value);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->value ? 'true' : 'false';
     }

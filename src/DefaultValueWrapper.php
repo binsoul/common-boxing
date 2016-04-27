@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Common\Boxing;
 
 use BinSoul\Common\Boxing\Type\ArrayValue;
@@ -14,7 +16,7 @@ use BinSoul\Common\Boxing\Type\StringValue;
  */
 class DefaultValueWrapper implements ValueWrapper
 {
-    public function box($value)
+    public function box($value): BoxedValue
     {
         if ($value instanceof LazyValue) {
             $value = $value->resolve();

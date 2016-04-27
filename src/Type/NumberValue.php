@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace BinSoul\Common\Boxing\Type;
 
 use BinSoul\Common\Boxing\BoxedValue;
@@ -17,9 +19,9 @@ class NumberValue implements BoxedValue
      *
      * @param float|int $value
      */
-    public function __construct($value)
+    public function __construct(float $value)
     {
-        $this->value = (float) $value;
+        $this->value = $value;
     }
 
     /**
@@ -39,7 +41,7 @@ class NumberValue implements BoxedValue
      *
      * @return self
      */
-    public function round($precision)
+    public function round(int $precision)
     {
         return new self(round($this->value, $precision));
     }
@@ -53,12 +55,12 @@ class NumberValue implements BoxedValue
      *
      * @return string
      */
-    public function format($precision = 0, $decimalPoint = '.', $thousandsSeparator = ',')
+    public function format(int $precision = 0, string $decimalPoint = '.', string $thousandsSeparator = ','): string
     {
         return number_format($this->value, $precision, $decimalPoint, $thousandsSeparator);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->value;
     }
