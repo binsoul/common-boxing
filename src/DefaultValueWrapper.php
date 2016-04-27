@@ -7,6 +7,7 @@ namespace BinSoul\Common\Boxing;
 use BinSoul\Common\Boxing\Type\ArrayValue;
 use BinSoul\Common\Boxing\Type\BooleanValue;
 use BinSoul\Common\Boxing\Type\LazyValue;
+use BinSoul\Common\Boxing\Type\NullValue;
 use BinSoul\Common\Boxing\Type\NumberValue;
 use BinSoul\Common\Boxing\Type\ObjectValue;
 use BinSoul\Common\Boxing\Type\StringValue;
@@ -26,7 +27,6 @@ class DefaultValueWrapper implements ValueWrapper
             return $value;
         }
 
-        $result = $value;
         if (is_callable($value)) {
             $result = new LazyValue($value, $this);
         } elseif (is_array($value)) {
@@ -39,6 +39,10 @@ class DefaultValueWrapper implements ValueWrapper
             $result = new NumberValue($value);
         } elseif (is_bool($value)) {
             $result = new BooleanValue($value);
+        } elseif (is_null($value)) {
+            $result = new NullValue($value);
+        } else {
+            throw new \InvalidArgumentException(sprintf('Cannot box value of type "%s".', gettype($value)));
         }
 
         return $result;
